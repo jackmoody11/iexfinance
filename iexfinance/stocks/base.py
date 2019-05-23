@@ -46,25 +46,11 @@ class Stock(_IEXBase):
         self.endpoints = []
         super(Stock, self).__init__(**kwargs)
 
-    @legacy_endpoint
     def get_all(self):
         """
-        Returns all endpoints, indexed by endpoint title for each symbol
-
-        Notes
-        -----
-        Only allows JSON format (pandas not supported).
+        DEPRECATED: All legacy endpoints are deprecated as of v0.4.2
         """
-        self.optional_params = {}
-        self.endpoints = self._ENDPOINTS[:10]
-        json_data = self.fetch(fmt_p=no_pandas)
-        self.endpoints = self._ENDPOINTS[10:20]
-        json_data_2 = self.fetch(fmt_p=no_pandas)
-        for symbol in self.symbols:
-            if symbol not in json_data:
-                raise IEXSymbolError(symbol)
-            json_data[symbol].update(json_data_2[symbol])
-        return json_data[self.symbols[0]] if self.n_symbols == 1 else json_data
+        raise ImmediateDeprecationError("get_all")
 
     @property
     def n_symbols(self):
